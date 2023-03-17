@@ -5,7 +5,7 @@ const fs = require('fs');
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   page.setViewport({ width: 1280, height:720 });
-  await page.goto('https://www.topcv.vn/viec-lam', { waitUntil: 'networkidle2' });
+  await page.goto('https://www.topcv.vn/viec-lam', { waitUntil: 'networkidle2'});
   await page.waitForSelector('.btn-outline-primary');
   await page.click('.btn-outline-primary');
   await page.waitForSelector('[name="email"]');
@@ -16,11 +16,11 @@ const fs = require('fs');
   await page.waitForNavigation();
   await page.goto('https://www.topcv.vn/cai-dat-goi-y-viec-lam');
   const categories = await page.evaluate(() =>
-    Array.from(document.querySelectorAll('#countries_selector option')).map((element, index)=>({id: index + 1, content: element.innerHTML}))
+    Array.from(document.querySelectorAll('#level_selector option')).map((element, index)=>({id: index, content: element.innerHTML})).slice(1)
   );
   
   //console.log(JSON.stringify(categories));
-  fs.writeFile('countries.json', JSON.stringify(categories), (err) => {
+  fs.writeFile('levels.json', JSON.stringify(categories), (err) => {
     if(err) {
         console.error(err); return;
     } else {
